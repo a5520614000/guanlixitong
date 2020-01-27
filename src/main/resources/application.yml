@@ -7,3 +7,6 @@ spring:
       exclude: WEB-INF/**
   freemarker:
     cache: false    #页面不加载缓存，修改即时生效
+mybatis:
+  ##xml文件的路径配置
+  mapper-locations:  classpath:myMapper/*.xml
