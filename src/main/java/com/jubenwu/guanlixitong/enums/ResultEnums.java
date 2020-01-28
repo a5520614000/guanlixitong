@@ -11,8 +11,10 @@ package com.jubenwu.guanlixitong.enums;
 public enum ResultEnums {
 
     LOGIN_SUCCESS(200,"登录成功"),
+    REGISTER_SUCCESS(201,"注册成功"),
     LOGIN_FAILED(100,"登录失败，未知错误"),
-    PASSWORD_ERROR(101,"密码错误");
+    PASSWORD_ERROR(101,"密码错误"),
+    ACCOUNT_EXIST(102,"账号已存在");
 
     public Integer getCode() {
         return code;
