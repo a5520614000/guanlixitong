@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jubenwu.guanlixitong.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.jubenwu.guanlixitong.model.User">
+    <!--@mbg.generated-->
+    <!--@Table user-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="account_id" jdbcType="VARCHAR" property="accountId" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="phone_number" jdbcType="VARCHAR" property="phoneNumber" />
+    <result column="company_name" jdbcType="VARCHAR" property="companyName" />
+    <result column="level" jdbcType="INTEGER" property="level" />
+    <result column="level_name" jdbcType="VARCHAR" property="levelName" />
+    <result column="gmt_create" jdbcType="VARCHAR" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="VARCHAR" property="gmtModified" />
+    <result column="token" jdbcType="VARCHAR" property="token" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, account_id, `password`, `name`, phone_number, company_name, `level`, level_name, 
+    gmt_create, gmt_modified, token
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.jubenwu.guanlixitong.model.User" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into user (account_id, `password`, `name`, 
+      phone_number, company_name, `level`, 
+      level_name, gmt_create, gmt_modified, 
+      token)
+    values (#{accountId,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{phoneNumber,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, 
+      #{levelName,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=VARCHAR}, #{gmtModified,jdbcType=VARCHAR}, 
+      #{token,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.jubenwu.guanlixitong.model.User" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="accountId != null">
+        account_id,
+      </if>
+      <if test="password != null">
+        `password`,
+      </if>
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="phoneNumber != null">
+        phone_number,
+      </if>
+      <if test="companyName != null">
+        company_name,
+      </if>
+      <if test="level != null">
+        `level`,
+      </if>
+      <if test="levelName != null">
+        level_name,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+      <if test="token != null">
+        token,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="accountId != null">
+        #{accountId,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumber != null">
+        #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null">
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="levelName != null">
+        #{levelName,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=VARCHAR},
+      </if>
+      <if test="token != null">
+        #{token,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jubenwu.guanlixitong.model.User">
+    <!--@mbg.generated-->
+    update user
+    <set>
+      <if test="accountId != null">
+        account_id = #{accountId,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        `password` = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumber != null">
+        phone_number = #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null">
+        company_name = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        `level` = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="levelName != null">
+        level_name = #{levelName,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=VARCHAR},
+      </if>
+      <if test="token != null">
+        token = #{token,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jubenwu.guanlixitong.model.User">
+    <!--@mbg.generated-->
+    update user
+    set account_id = #{accountId,jdbcType=VARCHAR},
+      `password` = #{password,jdbcType=VARCHAR},
+      `name` = #{name,jdbcType=VARCHAR},
+      phone_number = #{phoneNumber,jdbcType=VARCHAR},
+      company_name = #{companyName,jdbcType=VARCHAR},
+      `level` = #{level,jdbcType=INTEGER},
+      level_name = #{levelName,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=VARCHAR},
+      gmt_modified = #{gmtModified,jdbcType=VARCHAR},
+      token = #{token,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+<!--auto generated by MybatisCodeHelper on 2020-01-27-->
+  <select id="selectByAccountId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        where account_id=#{accountId,jdbcType=VARCHAR}
+    </select>
+
+<!--auto generated by MybatisCodeHelper on 2020-01-27-->
+  <update id="updateTokenAndGmtModifiedById">
+    update user
+    set token=#{updatedToken,jdbcType=VARCHAR}, gmt_modified=#{updatedGmtModified,jdbcType=VARCHAR}
+    where id=#{id,jdbcType=INTEGER}
+  </update>
+
+<!--auto generated by MybatisCodeHelper on 2020-01-27-->
+  <select id="countByAccountId" resultType="java.lang.Integer">
+    select count(1)
+    from user
+    where account_id=#{accountId,jdbcType=VARCHAR}
+  </select>
+</mapper>
