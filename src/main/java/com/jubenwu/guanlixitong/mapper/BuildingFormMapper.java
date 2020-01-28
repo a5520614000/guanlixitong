@@ -22,6 +22,10 @@ public interface BuildingFormMapper {
 
     BuildingForm selectByPrimaryKey(Integer id);
 
+    Integer selectLockerById(@Param("id")Integer id);
+
+
+
     int updateByPrimaryKeySelective(BuildingForm record);
 
     int updateByPrimaryKey(BuildingForm record);
@@ -29,6 +33,8 @@ public interface BuildingFormMapper {
     List<BuildingForm> selectByUserId(@Param("userId")Integer userId);
 
     Integer countByUserId(@Param("userId")Integer userId);
+
+    int updateById(@Param("updated")BuildingForm updated,@Param("id")Integer id);
 
 
 

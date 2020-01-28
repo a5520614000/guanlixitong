@@ -1,4 +1,5 @@
 package com.jubenwu.guanlixitong.mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.jubenwu.guanlixitong.model.Building;
 import org.apache.ibatis.annotations.Mapper;
@@ -25,5 +26,8 @@ public interface BuildingMapper {
     int updateByPrimaryKey(Building record);
 
     int insertAndGetId(Building building);
+
+    Integer selectFirstLockerbyId(@Param("id")Integer id);
+
 
 }

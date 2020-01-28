@@ -14,6 +14,7 @@ public enum ResultEnums {
     REGISTER_SUCCESS(201,"注册成功"),
     ADD_FORM_SUCCESS(202,"上报成功"),
     QUERY_SUCCESS(203,"查询成功"),
+    UPDATE_SUCCESS(204,"更新成功"),
 
 
 

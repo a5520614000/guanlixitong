@@ -11,6 +11,7 @@ import com.jubenwu.guanlixitong.service.BuildingService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -51,7 +52,7 @@ public class BuildingController {
     public Object addForm(@RequestBody AddBuildingFormDTO buildingFormDTO) {
         String token = buildingFormDTO.getToken();
         Integer parentId = mTokenSecurity.tokenIsUseful(token);
-        if (token.length() > 2) {
+        if (parentId> 0) {
             List<Integer> childIds = mBuildingService.insertBuildingList(buildingFormDTO, parentId);
             mBuildingFormService.insertBuildingFormDTO(buildingFormDTO, childIds, parentId);
             ResultDTO<Object> resultDTO = new ResultDTO<>();
@@ -133,14 +134,31 @@ public class BuildingController {
     /**
      * 修改报表
      *
-     * @param fromDTO
+     * @param buildingFormDTO
      * @return
      */
+    @Transactional
     @ResponseBody
     @RequestMapping(value = "/forms/update", method = RequestMethod.POST)
-    public Object updateChildForms(@RequestBody ChildRequestFromDTO fromDTO) {
-
-        return null;
+    public Object updateChildForms(@RequestBody UpdateBuildingFormDTO buildingFormDTO) {
+        String token = buildingFormDTO.getToken();
+        Integer parentId = mTokenSecurity.tokenIsUseful(token);
+        if (parentId> 0) {
+            //更新副表内容
+            List<Integer> childIds = mBuildingService.updateByPrimaryKey(buildingFormDTO, parentId);
+            mBuildingFormService.updateBuildingFormDTO(buildingFormDTO, childIds, parentId);
+            ResultDTO<Object> resultDTO = new ResultDTO<>();
+            resultDTO.setCode(ResultEnums.UPDATE_SUCCESS.getCode());
+            resultDTO.setMessage(ResultEnums.UPDATE_SUCCESS.getMessage());
+            resultDTO.setData("");
+            return resultDTO;
+        } else {
+            ResultDTO<Object> resultDTO = new ResultDTO<>();
+            resultDTO.setCode(ResultEnums.ADD_FORM_FAILED.getCode());
+            resultDTO.setMessage(ResultEnums.ADD_FORM_FAILED.getMessage());
+            resultDTO.setData("");
+            return resultDTO;
+        }
     }
 
 }

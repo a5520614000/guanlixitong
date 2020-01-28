@@ -11,8 +11,13 @@ class GuanlixitongApplicationTests {
     private  TokenSecurity mTokenSecurity;
     @Test
     void contextLoads() {
-        Integer integer = mTokenSecurity.tokenIsUseful("f08ca066-71f1-459b-a576-355464ee92acceshi2");
-        System.out.println(""+integer);
+
+        Integer u= 1;
+
+        if (3>u+1){
+            int y = u+1;
+            System.out.println("U:"+u+",Y:"+y);
+        }
     }
 
 }

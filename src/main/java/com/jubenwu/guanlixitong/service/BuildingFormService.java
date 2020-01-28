@@ -1,6 +1,7 @@
 package com.jubenwu.guanlixitong.service;
 
 import com.jubenwu.guanlixitong.dto.AddBuildingFormDTO;
+import com.jubenwu.guanlixitong.dto.UpdateBuildingFormDTO;
 import com.jubenwu.guanlixitong.mapper.BuildingFormMapper;
 import com.jubenwu.guanlixitong.model.BuildingForm;
 import org.apache.commons.lang3.StringUtils;
@@ -68,6 +69,22 @@ public class BuildingFormService {
     public List<BuildingForm> selectByUserId(Integer userId) {
         List<BuildingForm> buildingForms = buildingFormMapper.selectByUserId(userId);
         return buildingForms;
+    }
+
+    @Transactional
+    public void updateBuildingFormDTO(UpdateBuildingFormDTO buildingFormDTO, List<Integer> childIds, Integer parentId) {
+        BuildingForm buildingForm = buildingFormMapper.selectByPrimaryKey(buildingFormDTO.getId());
+        Integer oldLocker = buildingFormMapper.selectLockerById(buildingFormDTO.getId());
+        if (oldLocker==buildingFormDTO.getLocker()){
+            buildingForm.setLocker(buildingForm.getLocker()+1);
+            buildingForm.setGmtModified(System.currentTimeMillis()+"");
+            String join = StringUtils.join(childIds,",");
+            buildingForm.setChildFormId(join);
+            buildingFormMapper.updateByPrimaryKey(buildingForm);
+        }else {
+            // TODO: 2020-01-29 异常处理 
+            throw new RuntimeException();
+        }
     }
 }
 
