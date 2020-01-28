@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jubenwu.guanlixitong.mapper.BuildingMapper">
+  <resultMap id="BaseResultMap" type="com.jubenwu.guanlixitong.model.Building">
+    <!--@mbg.generated-->
+    <!--@Table building-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="card_id" jdbcType="VARCHAR" property="cardId" />
+    <result column="building_address" jdbcType="VARCHAR" property="buildingAddress" />
+    <result column="floor" jdbcType="INTEGER" property="floor" />
+    <result column="use" jdbcType="VARCHAR" property="use" />
+    <result column="others" jdbcType="VARCHAR" property="others" />
+    <result column="gmt_create" jdbcType="VARCHAR" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="VARCHAR" property="gmtModified" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="locker" jdbcType="INTEGER" property="locker" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, `name`, card_id, building_address, `floor`, `use`, `others`, gmt_create, gmt_modified, 
+    parent_id, locker
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from building
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from building
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.jubenwu.guanlixitong.model.Building" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into building (`name`, card_id, building_address, 
+      `floor`, `use`, `others`, 
+      gmt_create, gmt_modified, parent_id, 
+      locker)
+    values (#{name,jdbcType=VARCHAR}, #{cardId,jdbcType=VARCHAR}, #{buildingAddress,jdbcType=VARCHAR}, 
+      #{floor,jdbcType=INTEGER}, #{use,jdbcType=VARCHAR}, #{others,jdbcType=VARCHAR}, 
+      #{gmtCreate,jdbcType=VARCHAR}, #{gmtModified,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, 
+      #{locker,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.jubenwu.guanlixitong.model.Building" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into building
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="cardId != null">
+        card_id,
+      </if>
+      <if test="buildingAddress != null">
+        building_address,
+      </if>
+      <if test="floor != null">
+        `floor`,
+      </if>
+      <if test="use != null">
+        `use`,
+      </if>
+      <if test="others != null">
+        `others`,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="locker != null">
+        locker,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="cardId != null">
+        #{cardId,jdbcType=VARCHAR},
+      </if>
+      <if test="buildingAddress != null">
+        #{buildingAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="floor != null">
+        #{floor,jdbcType=INTEGER},
+      </if>
+      <if test="use != null">
+        #{use,jdbcType=VARCHAR},
+      </if>
+      <if test="others != null">
+        #{others,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="locker != null">
+        #{locker,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jubenwu.guanlixitong.model.Building">
+    <!--@mbg.generated-->
+    update building
+    <set>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="cardId != null">
+        card_id = #{cardId,jdbcType=VARCHAR},
+      </if>
+      <if test="buildingAddress != null">
+        building_address = #{buildingAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="floor != null">
+        `floor` = #{floor,jdbcType=INTEGER},
+      </if>
+      <if test="use != null">
+        `use` = #{use,jdbcType=VARCHAR},
+      </if>
+      <if test="others != null">
+        `others` = #{others,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="locker != null">
+        locker = #{locker,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jubenwu.guanlixitong.model.Building">
+    <!--@mbg.generated-->
+    update building
+    set `name` = #{name,jdbcType=VARCHAR},
+      card_id = #{cardId,jdbcType=VARCHAR},
+      building_address = #{buildingAddress,jdbcType=VARCHAR},
+      `floor` = #{floor,jdbcType=INTEGER},
+      `use` = #{use,jdbcType=VARCHAR},
+      `others` = #{others,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=VARCHAR},
+      gmt_modified = #{gmtModified,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=INTEGER},
+      locker = #{locker,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <insert id="insertAndGetId" useGeneratedKeys="true" keyProperty="id" parameterType="com.jubenwu.guanlixitong.model.Building">
+    insert into building (`name`, card_id, building_address,
+    `floor`, `use`, `others`,
+    gmt_create, gmt_modified, parent_id,
+    locker)
+    values (#{name,jdbcType=VARCHAR}, #{cardId,jdbcType=VARCHAR}, #{buildingAddress,jdbcType=VARCHAR},
+    #{floor,jdbcType=INTEGER}, #{use,jdbcType=VARCHAR}, #{others,jdbcType=VARCHAR},
+    #{gmtCreate,jdbcType=VARCHAR}, #{gmtModified,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER},
+    #{locker,jdbcType=INTEGER})
+  </insert>
+</mapper>

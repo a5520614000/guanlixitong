@@ -32,6 +32,8 @@ public interface UserMapper {
 
     Integer countByAccountId(@Param("accountId")String accountId);
 
+    List<Integer> selectIdByToken(@Param("token")String token);
+
 
 
 

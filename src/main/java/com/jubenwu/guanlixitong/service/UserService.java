@@ -1,6 +1,7 @@
 package com.jubenwu.guanlixitong.service;
 
 import com.jubenwu.guanlixitong.dto.LoginRequestDTO;
+import com.jubenwu.guanlixitong.etc.MyToken;
 import com.jubenwu.guanlixitong.mapper.UserMapper;
 import com.jubenwu.guanlixitong.model.User;
 import org.springframework.stereotype.Service;
@@ -8,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * @author glsite.com
@@ -69,7 +69,7 @@ public class UserService {
         }
         User user = users.get(0);
         if (user.getPassword().equals(loginRequestDTO.getPassword())) {
-            String token = UUID.randomUUID().toString();
+            String token = MyToken.getToken(loginRequestDTO.getAccountId());
             userMapper.updateTokenAndGmtModifiedById(token, System.currentTimeMillis() + "", user.getId());
             return token;
         } else {
@@ -83,7 +83,7 @@ public class UserService {
         if (integer==0){
             user.setGmtCreate(System.currentTimeMillis()+"");
             user.setGmtModified(user.getGmtCreate());
-            String token = UUID.randomUUID().toString();
+            String token = MyToken.getToken(user.getAccountId());
             user.setToken(token);
             user.setLevel(1);
             user.setLevelName("工作人员");
@@ -93,5 +93,18 @@ public class UserService {
             return "0";
         }
 
+    }
+
+    /**
+     * 用token找到userId
+     * @param token
+     * @return 存在返回userId，不存在返回0
+     */
+    public Integer selectIdByToken(String token){
+        try {
+            return userMapper.selectIdByToken(token).get(0);
+        }catch (IndexOutOfBoundsException e){
+            return 0;
+        }
     }
 }

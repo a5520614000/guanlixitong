@@ -12,9 +12,21 @@ public enum ResultEnums {
 
     LOGIN_SUCCESS(200,"登录成功"),
     REGISTER_SUCCESS(201,"注册成功"),
+    ADD_FORM_SUCCESS(202,"上报成功"),
+    QUERY_SUCCESS(203,"查询成功"),
+
+
+
     LOGIN_FAILED(100,"登录失败，未知错误"),
     PASSWORD_ERROR(101,"密码错误"),
-    ACCOUNT_EXIST(102,"账号已存在");
+    ACCOUNT_EXIST(102,"账号已存在"),
+    ADD_FORM_FAILED(203,"上报失败，请重试。如果多次失败，请联系管理员:错误代码203"),
+
+
+
+    UNKOWN_ERROR(900,"未知错误");
+
+
 
     public Integer getCode() {
         return code;
