@@ -55,15 +55,16 @@ public class BuildingFormService {
     }
 
     @Transactional
-    public void insertBuildingFormDTO(AddBuildingFormDTO buildingFormDTO, List<Integer> childIds, Integer parentId) {
+    public Integer insertBuildingFormDTO(AddBuildingFormDTO buildingFormDTO, List<Integer> childIds, Integer userId) {
         String s = StringUtils.join(childIds, ",");
         BuildingForm buildingForm = new BuildingForm();
         buildingForm.setChildFormId(s);
-        buildingForm.setUserId(parentId);
+        buildingForm.setUserId(userId);
         buildingForm.setGmtCreate(System.currentTimeMillis() + "");
         buildingForm.setGmtModified(buildingForm.getGmtCreate());
         buildingForm.setLocker(1);
         insert(buildingForm);
+        return buildingForm.getId();
     }
 
     public List<BuildingForm> selectByUserId(Integer userId) {
@@ -75,7 +76,7 @@ public class BuildingFormService {
     public void updateBuildingFormDTO(UpdateBuildingFormDTO buildingFormDTO, List<Integer> childIds, Integer parentId) {
         BuildingForm buildingForm = buildingFormMapper.selectByPrimaryKey(buildingFormDTO.getId());
         Integer oldLocker = buildingFormMapper.selectLockerById(buildingFormDTO.getId());
-        if (oldLocker==buildingFormDTO.getLocker()){
+        if (oldLocker.equals(buildingFormDTO.getLocker())){
             buildingForm.setLocker(buildingForm.getLocker()+1);
             buildingForm.setGmtModified(System.currentTimeMillis()+"");
             String join = StringUtils.join(childIds,",");
@@ -86,5 +87,11 @@ public class BuildingFormService {
             throw new RuntimeException();
         }
     }
+
+    public Integer selectUserIdById(Integer parentId) {
+        return buildingFormMapper.selectUserIdById(parentId);
+    }
+
+
 }
 

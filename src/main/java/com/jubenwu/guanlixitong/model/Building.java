@@ -72,5 +72,7 @@ public class Building implements Serializable {
      */
     private Integer locker;
 
+    private Integer userId;
+
     private static final long serialVersionUID = 1L;
 }

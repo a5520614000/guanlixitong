@@ -15,13 +15,15 @@ public enum ResultEnums {
     ADD_FORM_SUCCESS(202,"上报成功"),
     QUERY_SUCCESS(203,"查询成功"),
     UPDATE_SUCCESS(204,"更新成功"),
+    DELETE_SUCCESS(205,"删除成功"),
 
 
 
     LOGIN_FAILED(100,"登录失败，未知错误"),
     PASSWORD_ERROR(101,"密码错误"),
     ACCOUNT_EXIST(102,"账号已存在"),
-    ADD_FORM_FAILED(203,"上报失败，请重试。如果多次失败，请联系管理员:错误代码203"),
+    ADD_FORM_FAILED(103,"上报失败，请重试。如果多次失败，请联系管理员:错误代码203"),
+    DELETE_FAILED(104,"上报失败，请重试。如果多次失败，请联系管理员:错误代码203"),
 
 
 

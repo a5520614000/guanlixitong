@@ -24,6 +24,10 @@ public interface BuildingFormMapper {
 
     Integer selectLockerById(@Param("id")Integer id);
 
+    Integer selectUserIdById(@Param("id")Integer id);
+
+
+
 
 
     int updateByPrimaryKeySelective(BuildingForm record);

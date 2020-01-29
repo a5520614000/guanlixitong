@@ -55,48 +55,79 @@ public class BuildingService {
     }
 
     @Transactional
-    public List<Integer> insertBuildingList(AddBuildingFormDTO buildingFormDTO, Integer parentId) {
+    public List<Integer> insertBuildingList(AddBuildingFormDTO buildingFormDTO, Integer userId) {
         List<Integer> childIds = new ArrayList<>();
         List<Building> buildingList = buildingFormDTO.getBuilding();
         for (Building building : buildingList) {
-            insetNewForm(parentId, childIds, building);
+            insetNewForm(childIds, building, userId);
         }
         return childIds;
     }
 
     @Transactional
-    public List<Integer> updateByPrimaryKey(UpdateBuildingFormDTO buildingFormDTO, Integer parentId) {
+    public List<Integer> updateByPrimaryKey(UpdateBuildingFormDTO buildingFormDTO, Integer parentId, Integer userId) {
 
         List<Integer> childIds = new ArrayList<>();
         List<Building> buildingList = buildingFormDTO.getBuilding();
+
         for (Building building : buildingList) {
+            Integer id = building.getId();
+            if (id == null) {
+                id = 0;
+            }
+            System.out.println("id:" + id);
             //该问题自带ID，那么进入更新
-            if (building.getId() > 0) {
-                Integer oldLocker = buildingMapper.selectFirstLockerbyId(building.getId());
-                //乐观锁
-                if (oldLocker < (building.getLocker() + 1)) {
-                    building.setParentId(parentId);
-                    building.setLocker((building.getLocker() + 1));
-                    building.setGmtModified(System.currentTimeMillis() + "");
-                    childIds.add(building.getId());
-                    buildingMapper.updateByPrimaryKey(building);
+            if (id > 0) {
+                Integer userId1 = buildingMapper.selectUserIdById(building.getId());
+                //判断该问题是否属于该用户
+                if (userId1.equals(userId)) {
+                    Integer oldLocker = buildingMapper.selectFirstLockerbyId(id);
+                    //乐观锁
+                    if (oldLocker < (building.getLocker() + 1)) {
+                        building.setParentId(parentId);
+                        building.setLocker((building.getLocker() + 1));
+                        building.setGmtModified(System.currentTimeMillis() + "");
+                        buildingMapper.updateByPrimaryKey(building);
+                    }
+                    childIds.add(id);
                 }
             } else {
                 //否则新增
-                insetNewForm(parentId, childIds, building);
+                System.out.println("parentId:" + parentId);
+                building.setParentId(parentId);
+                building.setUserId(userId);
+                building.setLocker(1);
+                building.setGmtCreate(System.currentTimeMillis() + "");
+                building.setGmtModified(building.getGmtCreate());
+                buildingMapper.insertAndGetId(building);
+                childIds.add(building.getId());
             }
 
         }
         return childIds;
     }
 
-    private void insetNewForm(Integer parentId, List<Integer> childIds, Building building) {
-        building.setParentId(parentId);
+    private void insetNewForm(List<Integer> childIds, Building building, Integer userId) {
+        building.setUserId(userId);
         building.setLocker(1);
         building.setGmtCreate(System.currentTimeMillis() + "");
         building.setGmtModified(building.getGmtCreate());
         buildingMapper.insertAndGetId(building);
         childIds.add(building.getId());
     }
+
+    @Transactional
+    public void updateParentIdById(Integer parentId, List<Integer> childIds) {
+        for (Integer childId : childIds) {
+            buildingMapper.updateParentIdById(parentId, childId);
+        }
+    }
+
+    public Integer selectUserIdById(Integer id) {
+        return buildingMapper.selectUserIdById(id);
+    }
 }
+
+
+
 

@@ -1,8 +1,7 @@
 package com.jubenwu.guanlixitong.mapper;
-import org.apache.ibatis.annotations.Param;
 
 import com.jubenwu.guanlixitong.model.Building;
-import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Mapper;import org.apache.ibatis.annotations.Param;
 
 /**
  * @author glsite.com
@@ -25,9 +24,13 @@ public interface BuildingMapper {
 
     int updateByPrimaryKey(Building record);
 
+    int updateParentIdById(@Param("updatedParentId")Integer updatedParentId,@Param("id")Integer id);
+
+
+
+    Integer selectUserIdById(@Param("id") Integer id);
+
     int insertAndGetId(Building building);
 
-    Integer selectFirstLockerbyId(@Param("id")Integer id);
-
-
+    Integer selectFirstLockerbyId(@Param("id") Integer id);
 }
