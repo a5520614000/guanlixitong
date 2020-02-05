@@ -32,26 +32,7 @@
 
     <div id="tr_table" class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
         <div class="publish-top">
-            <h2 style="color: red;text-align: center">填表说明：请仔细阅读后填写</h2>
-            <ol style="font-size: 18px;">
-                <li>
-                    <h4>姓名：
-                        <ul>
-                            <span style="color: red"> <li>该建筑物修建人。</li><li>如果该人已故，填写法律上的所有继承人的名字。</li></span>
-                            <li>确保姓名与户口册或身份证所登记的一致。</li>
-                            <li>整栋楼由多人联建，需要填入所有参与人的名字。<span style="color: red">（如有已故的人，按前面要求填报）</span></li>
-                            <li>一个建筑物有多个所有人，请在姓名间用,隔开。</li>
-                        </ul>
-                    </h4>
-                </li>
-                <li><h4>身份证:<ul><li style="color: red">此项农业户口必填，请对应姓名顺序填写。</li>
-                    <li><span style="color: red">多条身份证号用,分割</span>（半角的“,”，需要在英文输入法状态下使用）。</li>
-                    <li>原则上必须填写每个人的身份证号，如特殊情况在无法找到所有身份证号，<span style="color: red">缺失的身份证信息的用5个8代替。</span></li>
-                    <li>禁止填写身份证号及分隔符,以外的其他内容，<span style="color: red">或造成保存失败丢失现有内容。</span></li></ul> </h4></li>
-                <li><h4>结构：其他结构是指除砖混，砖木外用其他材料构成的建筑物，必须<span style="color: red">墙高达到2.2米</span>以上。</h4></li>
-                <li><h4>地址：<ul><li>指<span style="color: red">该建筑物所在地址，</span>不是修建人的居住地址。</li>
-                    <li>必须<span style="color: red">明确违建的位置，</span>比如某栋旁，某栋楼顶。</li></ul></h4></li>
-            </ol>
+
         </div>
 
         <!--下面表-->
@@ -74,62 +55,33 @@
                 </thead>
                 <tbody>
                 <!--循环此处TR-->
-                <tr v-for="object in bodyData">
-                    <th v-text="object.id"></th>
+                <tr>
+                    <th></th>
                     <!--姓名-->
-                    <td><textarea type="text" row="5" class="form-control" v-model="object.name"></textarea></td>
+                    <td></td>
                     <!--身份证号-->
-                    <td><textarea type="text" row="5" class="form-control" v-model="object.cardId"></textarea></td>
+                    <td></td>
                     <!--地址-->
-                    <td><textarea type="text" row="5" class="form-control" v-model="object.buildingAddress"></textarea>
+                    <td></textarea>
                     </td>
                     <!--层数-->
-                    <td style="width: 6%"><select class="form-control" v-model="object.floor">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                        <option>6</option>
-                        <option>7</option>
-                        <option>8</option>
-                        <option>9</option>
-                    </select></td>
+                    <td></td>
                     <!--总面积-->
-                    <!--<td><textarea type="text" row="3" class="form-control" v-model="object.totalArea"></textarea></td>-->
-                    <td><input type="text" v-model="object.totalArea" readonly="readonly"></td>
+                    <td></td>
                     <!--砖混-->
-                    <td><textarea type="number" row="5" class="form-control" v-model="object.zhuanhun"
-                                  @Input="total(object.id)"></textarea></td>
-                    <!--<td><el-input v-model="" οnkeyup="this.value=this.value.replace(/[^\d.]/g,'');" maxlength="4" > </el-input></td>-->
+                    <td></td>
                     <!--砖木-->
-                    <td><textarea type="text" row="5" class="form-control" v-model="object.zhuanmu"
-                                  @Input="total(object.id)"></textarea></td>
+                    <td></td>
                     <!--其他-->
-                    <td><textarea type="text" row="5" class="form-control" v-model="object.other"
-                                  @Input="total(object.id)"></textarea></td>
+                    <td></td>
                     <!--用途-->
-                    <td style="width: 7%"><select class="form-control" v-model="object.use">
-                        <option>居住</option>
-                        <option>出租</option>
-                        <option>经营</option>
-                        <option>居住、出租</option>
-                        <option>居住、经营</option>
-                        <option>出租、经营</option>
-                        <option>居住、出租、经营</option>
-                    </select></td>
+                    <td></td>
                     <!--备注-->
-                    <td><textarea type="text" row="5" class="form-control" v-model="object.others"></textarea></td>
+                    <td></td>
                 </tr>
 
                 <tr>
-                    <td colspan="12" style="text-align: center;font-size: large" @click="addRow()">点击增加一户</td>
-                </tr>
-                <tr>
-                    <td colspan="12" style="text-align: center;font-size: large" @click="minusRow">点击减少一户</td>
-                </tr>
-                <tr>
-                    <td colspan="12" style="text-align: center;font-size: large" @click="insertForms">报送</td>
+                    <!--<td colspan="12" style="text-align: center;font-size: large" @click="insertForms">报送</td>-->
                 </tr>
                 </tbody>
             </table>
@@ -139,124 +91,37 @@
     <script>
         new Vue({
             el: '#tr_table',
-            data: {
-                lines: 1,
-                // bodyData:[{id:1},{name:'姓名'},{cardId:''},{buildingAddress:''},{floor:0},{totalArea:0},
-                //     {zhuanhun:0},{zhuanmu:0},{other:0},{use:''},{others:''}]
-                bodyData: [{
-                    id: 1, name: '', cardId: '', buildingAddress: '', floor: 0, totalArea: parseFloat('0'),
-                    zhuanhun: parseFloat('0'), zhuanmu: parseFloat('0'), other: 0, use: '', others: ''
-                }]
-            },
-            computed: {
-                jisuan: function () {
+            data() {
+                return {
+                    length: null,
+                    bodyData: null
                 }
             },
-            methods: {
-                //新增一栏
-                addRow: function () {
-                    if (this.lines > 9) {
-                        alert("一次最多报送10条");
-                        return;
-                    }
-                    var obj = new Object();
-                    var newId = ++this.lines;
-                    // console.log(newId)
-                    obj.id = newId;
-                    obj.name = "";
-                    obj.cardId = "";
-                    obj.buildingAddress = "";
-                    obj.floor = "";
-                    obj.zhuanhun = 0;
-                    obj.zhuanmu = 0;
-                    obj.other = 0;
-                    obj.totalArea = 0;
-                    obj.use = "";
-                    obj.others = "";
-                    this.bodyData.push((obj));
-                    // console.log(this.bodyData);
-                    return this.bodyData;
-                },
-                //减少一栏
-                minusRow: function () {
-                    if (this.lines < 2) {
-                        alert("不能再减了");
-                        return;
-                    }
-                    var newId = --this.lines;
-                    // console.log(newId)
-                    this.bodyData.splice(newId, 1);
-                    // console.log(this.bodyData);
-                    return this.bodyData;
-                },
-                insertForms: function () {
-                    var token = $.cookie("token");
-                    var obj = new Object();
-                    obj.token = token;
-                    obj.data = this.bodyData;
-                    for (var i = 0; i < obj.data.length; i++) {
-                        if (isNaN(obj.data[i].totalArea)) {
-                            alert('请检查面积是否书写错误');
+            mounted() {
+                var childId = this.getQuery();
+                console.log(childId);
+                var token = $.cookie("token");
+                console.log(token);
+                axios
+                    .post('/childforms/query', {token: token,childId:childId})
+                    .then(response => (console.log(response),this.bodyData=response.data.data))
+                    .catch(function (error) { // 请求失败处理
+                        console.log(error);
+                    });
+            },
+            methods:{
+                getQuery: function () {
+                    {
+                        var query = window.location.search.substring(1);
+                        var vars = query.split("&");
+                        for (var i = 0; i < vars.length; i++) {
+                            var pair = vars[i].split("=");
 
-                            return;
+                            if (pair[0] == 'childId') {
+                                return pair[1];
+                            }
                         }
-                        if (isNaN(obj.data[i].zhuanhun)) {
-                            alert('请检查砖混是否书写错误');
-                            return;
-                        }
-                        if (isNaN(obj.data[i].zhuanmu)) {
-                            alert('请检查砖木结构是否书写错误');
-                            return;
-                        }
-                        if (isNaN(obj.data[i].other)) {
-                            alert('请检查其他结构是否书写错误');
-                            return;
-                        }
-                        if (obj.data[i].name == null | obj.data[i].name == "") {
-                            alert('姓名不能为空');
-                            return;
-                        }
-                        if (obj.data[i].cardId == null | obj.data[i].cardId == "") {
-                            alert('身份证号不能为空');
-                            return;
-                        }
-                        if (obj.data[i].buildingAddress == null | obj.data[i].buildingAddress == "") {
-                            alert('地址不能为空');
-                            return;
-                        }
-                        if (obj.data[i].floor == null | obj.data[i].floor == "") {
-                            alert('层数不能为空');
-                            return;
-                        }
-                        if (obj.data[i].use == null | obj.data[i].use == "") {
-                            alert('用途不能为空');
-                            return;
-                        }
-                    }
-                    console.log(obj);
-                    axios
-                        .post('/test', obj)
-                        .then(function (response) {
-                            console.log(response);
-                        })
-                },
-                total: function (id) {
-                    var idd = id - 1;
-                    console.log(idd);
-                    var zhuanmu = this.bodyData[idd].zhuanmu;
-                    var zhuanhun = this.bodyData[idd].zhuanhun;
-                    var other = this.bodyData[idd].other;
-                    this.bodyData[idd].totalArea = (parseFloat(zhuanhun) + parseFloat(zhuanmu) + parseFloat(other)).toFixed(2);
-                    return this.bodyData[idd].totalArea;
-
-                },
-                isNumber: function (val) {
-                    var regPos = /^\d+(\.\d+)?$/; //非负浮点数
-                    var regNeg = /^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$/; //负浮点数
-                    if (regPos.test(val) || regNeg.test(val)) {
-                        return true;
-                    } else {
-                        return false;
+                        return (false);
                     }
                 }
             }

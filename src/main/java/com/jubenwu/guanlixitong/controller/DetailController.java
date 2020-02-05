@@ -1,7 +1,8 @@
 package com.jubenwu.guanlixitong.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * @author glsite.com
@@ -13,9 +14,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class DetailController {
 
-    @GetMapping("/detail")
+    @RequestMapping(value = "/detail",method = RequestMethod.GET)
     public Object doDetail(){
-
+//        System.out.println("child:"+childId);
 
         return "detail";
     }

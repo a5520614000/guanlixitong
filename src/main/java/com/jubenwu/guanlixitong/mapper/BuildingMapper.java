@@ -24,9 +24,7 @@ public interface BuildingMapper {
 
     int updateByPrimaryKey(Building record);
 
-    int updateParentIdById(@Param("updatedParentId")Integer updatedParentId,@Param("id")Integer id);
-
-
+    int updateParentIdById(@Param("updatedParentId") Integer updatedParentId, @Param("id") Integer id);
 
     Integer selectUserIdById(@Param("id") Integer id);
 

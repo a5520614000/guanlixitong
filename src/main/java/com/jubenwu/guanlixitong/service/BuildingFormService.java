@@ -3,6 +3,7 @@ package com.jubenwu.guanlixitong.service;
 import com.jubenwu.guanlixitong.dto.AddBuildingFormDTO;
 import com.jubenwu.guanlixitong.dto.UpdateBuildingFormDTO;
 import com.jubenwu.guanlixitong.mapper.BuildingFormMapper;
+import com.jubenwu.guanlixitong.model.Building;
 import com.jubenwu.guanlixitong.model.BuildingForm;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -54,12 +55,25 @@ public class BuildingFormService {
         return buildingFormMapper.updateByPrimaryKey(record);
     }
 
+    /**
+     * 插入主表
+     *
+     * @param buildingFormDTO DTO
+     * @param childIds        包含的子表ID
+     * @param userId          报送者的用户ID
+     * @return 主表插入后的主键ID
+     */
     @Transactional
     public Integer insertBuildingFormDTO(AddBuildingFormDTO buildingFormDTO, List<Integer> childIds, Integer userId) {
+        //把子表LIST转换成字符串
         String s = StringUtils.join(childIds, ",");
         BuildingForm buildingForm = new BuildingForm();
         buildingForm.setChildFormId(s);
         buildingForm.setUserId(userId);
+        Building building = buildingFormDTO.getBuilding().get(0);
+        buildingForm.setAdress(building.getBuildingAddress());
+        buildingForm.setIsSend(0);
+        buildingForm.setName(building.getName());
         buildingForm.setGmtCreate(System.currentTimeMillis() + "");
         buildingForm.setGmtModified(buildingForm.getGmtCreate());
         buildingForm.setLocker(1);
@@ -76,13 +90,13 @@ public class BuildingFormService {
     public void updateBuildingFormDTO(UpdateBuildingFormDTO buildingFormDTO, List<Integer> childIds, Integer parentId) {
         BuildingForm buildingForm = buildingFormMapper.selectByPrimaryKey(buildingFormDTO.getId());
         Integer oldLocker = buildingFormMapper.selectLockerById(buildingFormDTO.getId());
-        if (oldLocker.equals(buildingFormDTO.getLocker())){
-            buildingForm.setLocker(buildingForm.getLocker()+1);
-            buildingForm.setGmtModified(System.currentTimeMillis()+"");
-            String join = StringUtils.join(childIds,",");
+        if (oldLocker.equals(buildingFormDTO.getLocker())) {
+            buildingForm.setLocker(buildingForm.getLocker() + 1);
+            buildingForm.setGmtModified(System.currentTimeMillis() + "");
+            String join = StringUtils.join(childIds, ",");
             buildingForm.setChildFormId(join);
             buildingFormMapper.updateByPrimaryKey(buildingForm);
-        }else {
+        } else {
             // TODO: 2020-01-29 异常处理 
             throw new RuntimeException();
         }
@@ -94,4 +108,6 @@ public class BuildingFormService {
 
 
 }
+
+
 

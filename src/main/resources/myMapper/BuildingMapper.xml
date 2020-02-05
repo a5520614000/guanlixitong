@@ -16,11 +16,15 @@
     <result column="parent_id" jdbcType="INTEGER" property="parentId" />
     <result column="locker" jdbcType="INTEGER" property="locker" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="total_area" jdbcType="DOUBLE" property="totalArea" />
+    <result column="zhuanhun" jdbcType="DOUBLE" property="zhuanhun" />
+    <result column="zhuanmu" jdbcType="DOUBLE" property="zhuanmu" />
+    <result column="other" jdbcType="DOUBLE" property="other" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
     id, `name`, card_id, building_address, `floor`, `use`, `others`, gmt_create, gmt_modified, 
-    parent_id, locker, user_id
+    parent_id, locker, user_id, total_area, zhuanhun, zhuanmu, other
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -39,11 +43,15 @@
     insert into building (`name`, card_id, building_address, 
       `floor`, `use`, `others`, 
       gmt_create, gmt_modified, parent_id, 
-      locker, user_id)
+      locker, user_id, total_area, 
+      zhuanhun, zhuanmu, other
+      )
     values (#{name,jdbcType=VARCHAR}, #{cardId,jdbcType=VARCHAR}, #{buildingAddress,jdbcType=VARCHAR}, 
       #{floor,jdbcType=INTEGER}, #{use,jdbcType=VARCHAR}, #{others,jdbcType=VARCHAR}, 
       #{gmtCreate,jdbcType=VARCHAR}, #{gmtModified,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, 
-      #{locker,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER})
+      #{locker,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{totalArea,jdbcType=DOUBLE}, 
+      #{zhuanhun,jdbcType=DOUBLE}, #{zhuanmu,jdbcType=DOUBLE}, #{other,jdbcType=DOUBLE}
+      )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.jubenwu.guanlixitong.model.Building" useGeneratedKeys="true">
     <!--@mbg.generated-->
@@ -82,6 +90,18 @@
       <if test="userId != null">
         user_id,
       </if>
+      <if test="totalArea != null">
+        total_area,
+      </if>
+      <if test="zhuanhun != null">
+        zhuanhun,
+      </if>
+      <if test="zhuanmu != null">
+        zhuanmu,
+      </if>
+      <if test="other != null">
+        other,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="name != null">
@@ -116,6 +136,18 @@
       </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="totalArea != null">
+        #{totalArea,jdbcType=DOUBLE},
+      </if>
+      <if test="zhuanhun != null">
+        #{zhuanhun,jdbcType=DOUBLE},
+      </if>
+      <if test="zhuanmu != null">
+        #{zhuanmu,jdbcType=DOUBLE},
+      </if>
+      <if test="other != null">
+        #{other,jdbcType=DOUBLE},
       </if>
     </trim>
   </insert>
@@ -156,6 +188,18 @@
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
       </if>
+      <if test="totalArea != null">
+        total_area = #{totalArea,jdbcType=DOUBLE},
+      </if>
+      <if test="zhuanhun != null">
+        zhuanhun = #{zhuanhun,jdbcType=DOUBLE},
+      </if>
+      <if test="zhuanmu != null">
+        zhuanmu = #{zhuanmu,jdbcType=DOUBLE},
+      </if>
+      <if test="other != null">
+        other = #{other,jdbcType=DOUBLE},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -172,7 +216,11 @@
       gmt_modified = #{gmtModified,jdbcType=VARCHAR},
       parent_id = #{parentId,jdbcType=INTEGER},
       locker = #{locker,jdbcType=INTEGER},
-      user_id = #{userId,jdbcType=INTEGER}
+      user_id = #{userId,jdbcType=INTEGER},
+      total_area = #{totalArea,jdbcType=DOUBLE},
+      zhuanhun = #{zhuanhun,jdbcType=DOUBLE},
+      zhuanmu = #{zhuanmu,jdbcType=DOUBLE},
+      other = #{other,jdbcType=DOUBLE}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <insert id="insertAndGetId" keyProperty="id" parameterType="com.jubenwu.guanlixitong.model.Building" useGeneratedKeys="true">

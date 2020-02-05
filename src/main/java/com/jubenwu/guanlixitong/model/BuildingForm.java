@@ -1,8 +1,7 @@
 package com.jubenwu.guanlixitong.model;
 
-import lombok.Data;
-
 import java.io.Serializable;
+import lombok.Data;
 
 /**
  * @author glsite.com
@@ -14,7 +13,7 @@ import java.io.Serializable;
 @Data
 public class BuildingForm implements Serializable {
     /**
-     * id 自动
+     * id
      */
     private Integer id;
 
@@ -28,7 +27,6 @@ public class BuildingForm implements Serializable {
      */
     private String childFormId;
 
-    /*以下由后端处理*/
     /**
      * 创建时间
      */
@@ -43,6 +41,21 @@ public class BuildingForm implements Serializable {
      * 乐观锁
      */
     private Integer locker;
+
+    /**
+     * 审核状态 0未审核 1审核
+     */
+    private Integer isSend;
+
+    /**
+     * 地址示例
+     */
+    private String adress;
+
+    /**
+     * 姓名示例
+     */
+    private String name;
 
     private static final long serialVersionUID = 1L;
 }

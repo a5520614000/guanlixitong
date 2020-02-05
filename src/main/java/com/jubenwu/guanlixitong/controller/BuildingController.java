@@ -48,20 +48,27 @@ public class BuildingController {
      */
     @Transactional
     @ResponseBody
-    @RequestMapping(value = "/forms/publish", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/forms/publish", method = RequestMethod.POST)
     public Object addForm(@RequestBody AddBuildingFormDTO buildingFormDTO) {
+        //获取token
         String token = buildingFormDTO.getToken();
+        //查询token是否存在对应的user
         Integer userId = mUserService.selectIdByToken(token);
+        //如果存在那么>0
         if (userId> 0) {
+            //把子表插入数据库，并返回子表所在数据库的ID
             List<Integer> childIds = mBuildingService.insertBuildingList(buildingFormDTO,userId);
+            //把主表插入数据库，并返回主表所在数据库的ID
             Integer parentId = mBuildingFormService.insertBuildingFormDTO(buildingFormDTO, childIds, userId);
+            //更新子表的parentId
             mBuildingService.updateParentIdById(parentId,childIds);
+            //返回成功信息
             ResultDTO<Object> resultDTO = new ResultDTO<>();
             resultDTO.setCode(ResultEnums.ADD_FORM_SUCCESS.getCode());
             resultDTO.setMessage(ResultEnums.ADD_FORM_SUCCESS.getMessage());
             resultDTO.setData("");
             return resultDTO;
-        } else {
+        } else {//如果不存在，返回错误信息
             ResultDTO<Object> resultDTO = new ResultDTO<>();
             resultDTO.setCode(ResultEnums.ADD_FORM_FAILED.getCode());
             resultDTO.setMessage(ResultEnums.ADD_FORM_FAILED.getMessage());

@@ -54,10 +54,21 @@ public class BuildingService {
         return buildingMapper.updateByPrimaryKey(record);
     }
 
+    /**
+     * 插入子表
+     *
+     * @param buildingFormDTO 数据交换模型
+     * @param userId          用户ID
+     * @return 子表插入后获得的主键ID
+     */
     @Transactional
     public List<Integer> insertBuildingList(AddBuildingFormDTO buildingFormDTO, Integer userId) {
+//        System.out.println("buildDTO:"+buildingFormDTO.toString());
         List<Integer> childIds = new ArrayList<>();
+        //从DTO处获取子表LIST
         List<Building> buildingList = buildingFormDTO.getBuilding();
+        System.out.println("list:"+buildingList);
+        //迭代并插入每一个子表
         for (Building building : buildingList) {
             insetNewForm(childIds, building, userId);
         }
@@ -107,12 +118,14 @@ public class BuildingService {
         return childIds;
     }
 
+    //新增
     private void insetNewForm(List<Integer> childIds, Building building, Integer userId) {
         building.setUserId(userId);
         building.setLocker(1);
         building.setGmtCreate(System.currentTimeMillis() + "");
         building.setGmtModified(building.getGmtCreate());
-        buildingMapper.insertAndGetId(building);
+        buildingMapper.insert(building);
+//        buildingMapper.insertAndGetId(building);
         childIds.add(building.getId());
     }
 
@@ -127,6 +140,8 @@ public class BuildingService {
         return buildingMapper.selectUserIdById(id);
     }
 }
+
+
 
 
 

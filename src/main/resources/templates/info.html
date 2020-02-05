@@ -35,7 +35,7 @@
         <div class="row">
             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 img-text">
                 <img class="img-title" src="/image/details_blue.png" alt="">
-                <span>报表总数:{{length}}份</span>
+                <span>报表总数:{{length+1}}份</span>
             </div>
             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 img-text">
                 <img class="img-title" src="/image/details_green.png" alt="">
@@ -59,6 +59,7 @@
                     <th>地址（简）</th>
                     <th>修改时间</th>
                     <th>审核状态</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -71,10 +72,11 @@
                     <td>{{}}</td>
                     <td>{{dateFormat(data.gmtModified)}}</td>
                     <td>{{}}</td>
+                    <td><a :href="'/detail?childId='+data.childFormId">查看</a></td>
                 </tr>
 
                 <tr>
-                    <td colspan="7" style="text-align: center;font-size: large">点击查看更多</td>
+                    <td colspan="8" style="text-align: center;font-size: large">点击查看更多</td>
                 </tr>
                 </tbody>
             </table>
@@ -86,6 +88,7 @@
             el: '#tr_table',
             data () {
                 return {
+                    detailUrl:'/detail?childId=',
                     length:null,
                     formData: null
                 }

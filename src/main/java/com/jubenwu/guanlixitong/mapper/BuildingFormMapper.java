@@ -1,9 +1,7 @@
 package com.jubenwu.guanlixitong.mapper;
-import com.jubenwu.guanlixitong.model.BuildingForm;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
+import com.jubenwu.guanlixitong.model.BuildingForm;
+import org.apache.ibatis.annotations.Mapper;import org.apache.ibatis.annotations.Param;import java.util.List;
 
 /**
  * @author glsite.com
@@ -22,25 +20,17 @@ public interface BuildingFormMapper {
 
     BuildingForm selectByPrimaryKey(Integer id);
 
-    Integer selectLockerById(@Param("id")Integer id);
-
-    Integer selectUserIdById(@Param("id")Integer id);
-
-
-
-
-
     int updateByPrimaryKeySelective(BuildingForm record);
 
     int updateByPrimaryKey(BuildingForm record);
 
-    List<BuildingForm> selectByUserId(@Param("userId")Integer userId);
+    Integer selectLockerById(@Param("id") Integer id);
 
-    Integer countByUserId(@Param("userId")Integer userId);
+    Integer selectUserIdById(@Param("id") Integer id);
 
-    int updateById(@Param("updated")BuildingForm updated,@Param("id")Integer id);
+    List<BuildingForm> selectByUserId(@Param("userId") Integer userId);
 
+    Integer countByUserId(@Param("userId") Integer userId);
 
-
-
+    int updateById(@Param("updated") BuildingForm updated, @Param("id") Integer id);
 }

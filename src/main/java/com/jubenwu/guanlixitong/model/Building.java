@@ -72,7 +72,30 @@ public class Building implements Serializable {
      */
     private Integer locker;
 
+    /**
+     * 上报该表的用户ID
+     */
     private Integer userId;
+
+    /**
+     * 总面积
+     */
+    private Double totalArea;
+
+    /**
+     * 砖混结构面积
+     */
+    private Double zhuanhun;
+
+    /**
+     * 砖木结构面积
+     */
+    private Double zhuanmu;
+
+    /**
+     * 其他结构面积
+     */
+    private Double other;
 
     private static final long serialVersionUID = 1L;
 }
