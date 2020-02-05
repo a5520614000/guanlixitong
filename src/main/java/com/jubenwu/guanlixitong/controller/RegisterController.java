@@ -5,11 +5,7 @@ import com.jubenwu.guanlixitong.enums.ResultEnums;
 import com.jubenwu.guanlixitong.model.User;
 import com.jubenwu.guanlixitong.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 
@@ -20,7 +16,7 @@ import java.util.HashMap;
  * @updateAuthor $Author$
  * @updateDes ${TODO}
  */
-@Controller
+@RestController
 public class RegisterController {
 
     @Autowired

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns:v-on="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>报表管理系统</title>
+    <script th:inline="javascript"></script>
+    <script src="/static/jquery-3.4.1.min.js"></script>
+    <script src="/static/vue.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/axios.min.js"></script>
+    <script src="/static/vue-router.js"></script>
+    <link rel="stylesheet" href="/static/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/css/mycss.css">
+
+</head>
+
+
+<body style="background-color: rgba(239,239,239,0.8);">
+<div th:replace="~{topnav::topbar}">
+
+</div>
+
+<div class="container-fluid " style="padding: 0px;height: 100%">
+
+    <div class=" col-xs-2 col-sm-2 col-md-2 col-lg-2 info-side-bar">
+        <div th:replace="~{topnav::sidebar}"></div>
+    </div>
+
+    <div id="tr_table" class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+        <!--顶上三格-->
+        <div class="row">
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 img-text">
+                <img class="img-title" src="/image/details_blue.png" alt="">
+                <span>报表总数:{{length}}份</span>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 img-text">
+                <img class="img-title" src="/image/details_green.png" alt="">
+                <span>已审核{{}}</span>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 img-text">
+                <img class="img-title" src="/image/details_red.png" alt="">
+                <span>被退回{{}}</span>
+            </div>
+        </div>
+
+        <!--下面表-->
+        <div  class="info-table ">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>上报时间</th>
+                    <th>姓名（简）</th>
+                    <th>涉及户数</th>
+                    <th>地址（简）</th>
+                    <th>修改时间</th>
+                    <th>审核状态</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!--循环此处TR-->
+                <tr v-for="data in formData">
+                    <th scope="row">{{data.id}}</th>
+                    <td>{{dateFormat(data.gmtCreate)}}</td>
+                    <td>{{data.name}}</td>
+                    <td>{{childCount(data.childFormId)}}</td>
+                    <td>{{}}</td>
+                    <td>{{dateFormat(data.gmtModified)}}</td>
+                    <td>{{}}</td>
+                </tr>
+
+                <tr>
+                    <td colspan="7" style="text-align: center;font-size: large">点击查看更多</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="https://cdn.staticfile.org/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script>
+        new Vue({
+            el: '#tr_table',
+            data () {
+                return {
+                    length:null,
+                    formData: null
+                }
+            },
+            mounted () {
+                var token = $.cookie("token");
+                console.log(token);
+                axios
+                    .post('/forms/query',{token:token})
+                    .then(response => (this.formData = response.data.data,this.length=response.data.data.length))
+                    .catch(function (error) { // 请求失败处理
+                        console.log(error);
+                    });
+            },
+
+            methods:{
+                //   时间格式化
+                dateFormat:function(time) {
+                    var date=new Date(parseInt(time));
+                    var year=date.getFullYear();
+                    /* 在日期格式中，月份是从0开始的，因此要加0
+                     * 使用三元表达式在小于10的前面加0，以达到格式统一  如 09:11:05
+                     * */
+                    var month= date.getMonth()+1<10 ? "0"+(date.getMonth()+1) : date.getMonth()+1;
+                    var day=date.getDate()<10 ? "0"+date.getDate() : date.getDate();
+                    var hours=date.getHours()<10 ? "0"+date.getHours() : date.getHours();
+                    var minutes=date.getMinutes()<10 ? "0"+date.getMinutes() : date.getMinutes();
+                    var seconds=date.getSeconds()<10 ? "0"+date.getSeconds() : date.getSeconds();
+                    // 拼接
+                    var times = year+"-"+month+"-"+day+" "+hours+":"+minutes+":"+seconds;
+                    return times;
+                },
+                childCount:function (child) {
+                    var childArr = child.split(',');
+                    return childArr.length+"户";
+                }
+            }
+        })
+    </script>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,153 @@
+.index-form {
+    padding-bottom: 20px;
+    background-image: url(/static/image/from.png);
+    background-position: center;
+    background-size: cover;
+    padding-bottom: 30px;
+}
+
+.index-form-title {
+    height: 60px;
+    background-image: url(/static/image/from_title.png);
+    margin-bottom: 30px;
+}
+
+.index-form-text {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.index-form-top {
+    margin-bottom: 200px;
+}
+
+.index-form-bottom {
+    margin-top: 200px;
+}
+
+.index-back-img {
+    background-position: center;
+    background-image: url(/static/image/index_background.png);
+    background-size: cover;
+    height: 100vh;
+}
+
+.index-commit-btn {
+    width: 30%;
+}
+
+.index-title-text {
+    text-align: center;
+    line-height: 238%;
+    font-size: 24px;
+}
+
+.nav-text {
+    font-size: x-large;
+}
+
+.nav-side-bar-ul {
+    list-style-type: none;
+    font-size: large;
+    padding-left: 0px;
+}
+
+.nav-side-bar-ul li {
+    line-height: 50px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.nav-side-bar-ul-right {
+    line-height: 50px;
+    float: right;
+}
+
+.nav-side-bar-ul-left {
+    line-height: 50px;
+}
+
+.nav-side-bar-ul-img {
+    margin-left: 20%;
+    width: auto;
+    height: auto;
+    max-width: 60%;
+    max-height: 60%;
+}
+
+.img-auto-size {
+    margin-top: 10px;
+    width: auto;
+    max-width: 90%;
+    max-height: 90%;
+    height: auto;
+}
+
+.blue-img {
+    background-position: center;
+    background-image: url(/static/image/details_blue.png);
+    background-size: cover;
+}
+
+.red-img {
+    background-position: center;
+    background-image: url(/static/image/details_red.png);
+    background-size: cover;
+}
+
+.green-img {
+    background-position: center;
+    background-image: url(/static/image/details_green.png);
+    background-size: cover;
+}
+
+.img-title {
+    margin-top: 10px;
+}
+
+.img-text {
+    position: relative;
+}
+
+.img-text span {
+    position: absolute;
+    left: 38%;
+    top: 38%;
+    z-index: 2;
+    font-size: large;
+    font-weight: 600;
+}
+
+.info-table {
+    border-collapse: collapse;
+    background-color: white;
+    margin-top: 20px;
+}
+
+.info-table table {
+    border: 1px solid black;
+}
+
+html {
+    height: 100%;
+    width: 100%;
+}
+
+.info-side-bar {
+    height: 100vh;
+    padding-top: 30px;
+    padding-left: 0px;
+    padding-right: 0px;
+    background-color: white;
+}
+
+.publish-top{
+    background-color: white;
+    border: 3px solid;
+    border-color: rgba(200,200,200,0.8);
+    margin-top: 10px;
+}
+
+.publish-top li{
+    padding-bottom: 2px;
+}
