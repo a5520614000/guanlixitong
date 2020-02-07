@@ -28,9 +28,22 @@ public interface BuildingFormMapper {
 
     Integer selectUserIdById(@Param("id") Integer id);
 
+   String selectChildFormIdById(@Param("id")Integer id);
+
+
+
     List<BuildingForm> selectByUserId(@Param("userId") Integer userId);
 
     Integer countByUserId(@Param("userId") Integer userId);
 
     int updateById(@Param("updated") BuildingForm updated, @Param("id") Integer id);
+
+    int updateChildFormIdById(@Param("updatedChildFormId")String updatedChildFormId,@Param("id")Integer id);
+
+    int updateUserIdById(@Param("updatedUserId")Integer updatedUserId,@Param("id")Integer id);
+
+
+
+
+
 }

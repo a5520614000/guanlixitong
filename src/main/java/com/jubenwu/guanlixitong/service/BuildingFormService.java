@@ -27,7 +27,8 @@ public class BuildingFormService {
 
 
     public int deleteByPrimaryKey(Integer id) {
-        return buildingFormMapper.deleteByPrimaryKey(id);
+        int i = buildingFormMapper.updateUserIdById(-2, id);
+        return i;
     }
 
 
@@ -71,7 +72,7 @@ public class BuildingFormService {
         buildingForm.setChildFormId(s);
         buildingForm.setUserId(userId);
         Building building = buildingFormDTO.getBuilding().get(0);
-        buildingForm.setAdress(building.getBuildingAddress());
+        buildingForm.setAddress(building.getBuildingAddress());
         buildingForm.setIsSend(0);
         buildingForm.setName(building.getName());
         buildingForm.setGmtCreate(System.currentTimeMillis() + "");
@@ -86,18 +87,30 @@ public class BuildingFormService {
         return buildingForms;
     }
 
+    /**
+     * 更新主表
+     * @param buildingFormDTO DTO
+     * @param parentId 主表ID
+     * @return 1代表更新成功 0代表失败
+     */
     @Transactional
-    public void updateBuildingFormDTO(UpdateBuildingFormDTO buildingFormDTO, List<Integer> childIds, Integer parentId) {
-        BuildingForm buildingForm = buildingFormMapper.selectByPrimaryKey(buildingFormDTO.getId());
-        Integer oldLocker = buildingFormMapper.selectLockerById(buildingFormDTO.getId());
+    public void updateBuildingFormDTO(UpdateBuildingFormDTO buildingFormDTO, Integer parentId) {
+        //通过主表ID找到“主表”
+        BuildingForm buildingForm = buildingFormMapper.selectByPrimaryKey(parentId);
+        //乐观锁
+        Integer oldLocker = buildingFormMapper.selectLockerById(parentId);
+        //乐观锁防高并发
         if (oldLocker.equals(buildingFormDTO.getLocker())) {
             buildingForm.setLocker(buildingForm.getLocker() + 1);
             buildingForm.setGmtModified(System.currentTimeMillis() + "");
-            String join = StringUtils.join(childIds, ",");
-            buildingForm.setChildFormId(join);
+            //重置为未审核状态
+            buildingForm.setIsSend(0);
+            Building myBuilding = buildingFormDTO.getBuilding().get(0);
+            buildingForm.setName(myBuilding.getName());
+            buildingForm.setAddress(myBuilding.getBuildingAddress());
             buildingFormMapper.updateByPrimaryKey(buildingForm);
         } else {
-            // TODO: 2020-01-29 异常处理 
+            // TODO: 2020-02-06 异常处理
             throw new RuntimeException();
         }
     }
@@ -107,7 +120,11 @@ public class BuildingFormService {
     }
 
 
+    public Integer selectLockerById(Integer parentId) {
+        return buildingFormMapper.selectLockerById(parentId);
+    }
 }
+
 
 
 

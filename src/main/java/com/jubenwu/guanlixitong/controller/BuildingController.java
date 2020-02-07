@@ -50,6 +50,7 @@ public class BuildingController {
     @ResponseBody
     @RequestMapping(value = "/api/forms/publish", method = RequestMethod.POST)
     public Object addForm(@RequestBody AddBuildingFormDTO buildingFormDTO) {
+        System.out.println("dto:"+buildingFormDTO);
         //获取token
         String token = buildingFormDTO.getToken();
         //查询token是否存在对应的user
@@ -63,17 +64,9 @@ public class BuildingController {
             //更新子表的parentId
             mBuildingService.updateParentIdById(parentId,childIds);
             //返回成功信息
-            ResultDTO<Object> resultDTO = new ResultDTO<>();
-            resultDTO.setCode(ResultEnums.ADD_FORM_SUCCESS.getCode());
-            resultDTO.setMessage(ResultEnums.ADD_FORM_SUCCESS.getMessage());
-            resultDTO.setData("");
-            return resultDTO;
+            return returnErrorMessage(ResultEnums.ADD_FORM_SUCCESS);
         } else {//如果不存在，返回错误信息
-            ResultDTO<Object> resultDTO = new ResultDTO<>();
-            resultDTO.setCode(ResultEnums.ADD_FORM_FAILED.getCode());
-            resultDTO.setMessage(ResultEnums.ADD_FORM_FAILED.getMessage());
-            resultDTO.setData("");
-            return resultDTO;
+            return returnErrorMessage(ResultEnums.ADD_FORM_FAILED);
         }
 
     }
@@ -98,11 +91,7 @@ public class BuildingController {
             resultDTO.setData(buildingForms);
             return resultDTO;
         } else {
-            ResultDTO<Object> resultDTO = new ResultDTO<>();
-            resultDTO.setCode(ResultEnums.UNKOWN_ERROR.getCode());
-            resultDTO.setMessage(ResultEnums.UNKOWN_ERROR.getMessage());
-            resultDTO.setData("");
-            return resultDTO;
+            return returnErrorMessage(ResultEnums.UNKOWN_ERROR);
         }
     }
 
@@ -116,20 +105,22 @@ public class BuildingController {
     @RequestMapping(value = "/childforms/query", method = RequestMethod.POST)
     public Object getChildForms(@RequestBody ChildRequestFromDTO fromDTO) {
         Integer userId = mTokenSecurity.tokenIsUseful(fromDTO.getToken());
-        System.out.println("userId:" + userId);
+//        System.out.println("查询附表userId:" + userId);
+        Integer locker = 0;
         if (userId > 0) {
             String[] split = StringUtils.split(fromDTO.getChildId(), ",");
-
             List<Building> buildingList = new ArrayList<>();
             for (String s : split) {
-                System.out.println("s:" + s);
+//                System.out.println("s:" + s);
                 Building building = mBuildingService.selectByPrimaryKey(Integer.parseInt(s));
+                locker = mBuildingFormService.selectLockerById(building.getParentId());
+//                System.out.println("查询附表："+building.toString()+"。主表的locker："+locker);
                 buildingList.add(building);
             }
-            ResultListDTO<Building> objectResultDTO = new ResultListDTO<>();
+            ResultDetailDTO<Building> objectResultDTO = new ResultDetailDTO<>();
             objectResultDTO.setData(buildingList);
             objectResultDTO.setCode(ResultEnums.QUERY_SUCCESS.getCode());
-            objectResultDTO.setMessage(ResultEnums.QUERY_SUCCESS.getMessage());
+            objectResultDTO.setLocker(locker);
             String s = JSON.toJSONString(objectResultDTO);
             return s;
         } else {
@@ -142,32 +133,42 @@ public class BuildingController {
     /**
      * 修改报表
      *
-     * @param buildingFormDTO
-     * @return
+     * @param buildingFormDTO DTO
+     * @return 成功或者失败信息
      */
     @Transactional
     @ResponseBody
-    @RequestMapping(value = "/forms/update", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/forms/update", method = RequestMethod.POST)
     public Object updateChildForms(@RequestBody UpdateBuildingFormDTO buildingFormDTO) {
+        //获取token
         String token = buildingFormDTO.getToken();
-        Integer parentId = buildingFormDTO.getId();
+        //获取用户ID
         Integer userId = mUserService.selectIdByToken(token);
-        if (parentId> 0) {
+        //如果用户ID存在
+        if (userId> 0) {
             //更新副表内容
-            List<Integer> childIds = mBuildingService.updateByPrimaryKey(buildingFormDTO, parentId,userId);
-            mBuildingFormService.updateBuildingFormDTO(buildingFormDTO, childIds, parentId);
-            ResultDTO<Object> resultDTO = new ResultDTO<>();
-            resultDTO.setCode(ResultEnums.UPDATE_SUCCESS.getCode());
-            resultDTO.setMessage(ResultEnums.UPDATE_SUCCESS.getMessage());
-            resultDTO.setData("");
-            return resultDTO;
+            Integer parentId = mBuildingService.updateByPrimaryKey(buildingFormDTO,userId);
+            //更新主表内容
+            mBuildingFormService.updateBuildingFormDTO(buildingFormDTO, parentId);
+            //返回信息
+            return returnErrorMessage(ResultEnums.UPDATE_SUCCESS);
         } else {
-            ResultDTO<Object> resultDTO = new ResultDTO<>();
-            resultDTO.setCode(ResultEnums.ADD_FORM_FAILED.getCode());
-            resultDTO.setMessage(ResultEnums.ADD_FORM_FAILED.getMessage());
-            resultDTO.setData("");
-            return resultDTO;
+            //失败返回信息
+            return returnErrorMessage(ResultEnums.UPDATE_FAILED);
         }
+    }
+
+    /**
+     * 返回错误信息
+     * @param updateFailed 错误信息代码
+     * @return 错误信息JSON
+     */
+    private Object returnErrorMessage(ResultEnums updateFailed) {
+        ResultDTO<Object> resultDTO = new ResultDTO<>();
+        resultDTO.setCode(updateFailed.getCode());
+        resultDTO.setMessage(updateFailed.getMessage());
+        resultDTO.setData("");
+        return resultDTO;
     }
 
     /**
@@ -178,23 +179,16 @@ public class BuildingController {
      */
     @Transactional
     @ResponseBody
-    @RequestMapping(value = "/forms/delete", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/forms/delete", method = RequestMethod.POST)
     public Object deleteForms(@RequestBody DeleteFormDTO deleteFormDTO) {
+        //确认该问题归属
         Integer userId1 = mUserService.selectIdByToken(deleteFormDTO.getToken());
         Integer userId2 = mBuildingFormService.selectUserIdById(deleteFormDTO.getId());
         if (userId1.equals(userId2)){
             mBuildingFormService.deleteByPrimaryKey(deleteFormDTO.getId());
-            ResultDTO<Object> resultDTO = new ResultDTO<>();
-            resultDTO.setCode(ResultEnums.DELETE_SUCCESS.getCode());
-            resultDTO.setMessage(ResultEnums.DELETE_SUCCESS.getMessage());
-            resultDTO.setData("");
-            return resultDTO;
+            return returnErrorMessage(ResultEnums.DELETE_SUCCESS);
         }else {
-            ResultDTO<Object> resultDTO = new ResultDTO<>();
-            resultDTO.setCode(ResultEnums.DELETE_FAILED.getCode());
-            resultDTO.setMessage(ResultEnums.DELETE_FAILED.getMessage());
-            resultDTO.setData("");
-            return resultDTO;
+            return returnErrorMessage(ResultEnums.DELETE_FAILED);
         }
 
     }
@@ -206,23 +200,19 @@ public class BuildingController {
      */
     @Transactional
     @ResponseBody
-    @RequestMapping(value = "/childforms/delete", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/childForms/delete", method = RequestMethod.POST)
     public Object deleteChildForms(@RequestBody DeleteFormDTO deleteFormDTO) {
+        //根据token，查询userId
         Integer userId1 = mUserService.selectIdByToken(deleteFormDTO.getToken());
+        //根据附表ID，查询userId
         Integer userId2 = mBuildingService.selectUserIdById(deleteFormDTO.getId());
+        //判断问题归属
         if (userId1.equals(userId2)){
+            //是所属人，则删除(实则更新该问题userId为-2)
             mBuildingService.deleteByPrimaryKey(deleteFormDTO.getId());
-            ResultDTO<Object> resultDTO = new ResultDTO<>();
-            resultDTO.setCode(ResultEnums.DELETE_SUCCESS.getCode());
-            resultDTO.setMessage(ResultEnums.DELETE_SUCCESS.getMessage());
-            resultDTO.setData("");
-            return resultDTO;
+            return returnErrorMessage(ResultEnums.DELETE_SUCCESS);
         }else {
-            ResultDTO<Object> resultDTO = new ResultDTO<>();
-            resultDTO.setCode(ResultEnums.DELETE_FAILED.getCode());
-            resultDTO.setMessage(ResultEnums.DELETE_FAILED.getMessage());
-            resultDTO.setData("");
-            return resultDTO;
+            return returnErrorMessage(ResultEnums.DELETE_FAILED);
         }
     }
 

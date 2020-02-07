@@ -19,7 +19,7 @@
 <body>
 <nav th:fragment="topbar" class="navbar navbar-default col-xs-12 col-sm-12 col-md-12 col-lg-12"
      style="background-color: rgba(56,111,213,0.8);margin-bottom: 0px;">
-    <div class="container-fluid">
+    <div id="nav" class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
                     data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -31,7 +31,6 @@
             <a class="navbar-brand nav-text" style="color:white;" href="#">报表管理系统</a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-
             <form class="navbar-form navbar-left">
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="搜索...">
@@ -39,10 +38,23 @@
                 <button type="submit" class="btn btn-default">搜索</button>
             </form>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#" style="color:white;">安全退出</a></li>
+                <li><a @click="exit">安全退出</a></li>
             </ul>
         </div>
     </div>
+    <script src="https://cdn.staticfile.org/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script>
+        new Vue({
+            el:'#nav',
+            methods:{
+                exit:function () {
+                    console.log("退出啦");
+                    $.cookie("token",'0');
+                    $(window).attr('location','/');
+                }
+            }
+        })
+    </script>
 </nav>
 
 
@@ -53,22 +65,22 @@
         <div style="text-align: center">{{user.name}}</div>
         <hr>
 
-    <li><a>
+    <li><a href="/info">
         <span class="glyphicon glyphicon-home nav-side-bar-ul-left"></span>
         首页总览
         <span class="glyphicon glyphicon-menu-right nav-side-bar-ul-right" aria-hidden="true"></span></a>
     </li>
-    <li><a href="">
+    <li><a href="/publish">
         <span class="glyphicon glyphicon-pencil nav-side-bar-ul-left"></span>
         填报数据
         <span class="glyphicon glyphicon-menu-right nav-side-bar-ul-right" aria-hidden="true"></span></a>
     </li>
-    <li><a href="">
+    <li><a href="/info">
         <span class="glyphicon glyphicon-stats nav-side-bar-ul-left"></span>
         报表汇总
         <span class="glyphicon glyphicon-menu-right nav-side-bar-ul-right" aria-hidden="true"></span></a>
     </li>
-    <li><a href="">
+    <li><a href="/set">
         <span class="glyphicon glyphicon-user nav-side-bar-ul-left"></span>
         信息设置
         <span class="glyphicon glyphicon-menu-right nav-side-bar-ul-right" aria-hidden="true"></span></a>

@@ -50,7 +50,7 @@ public class BuildingForm implements Serializable {
     /**
      * 地址示例
      */
-    private String adress;
+    private String address;
 
     /**
      * 姓名示例

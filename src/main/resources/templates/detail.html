@@ -55,33 +55,32 @@
                 </thead>
                 <tbody>
                 <!--循环此处TR-->
-                <tr>
-                    <th></th>
+                <tr v-for="(data,index) in bodyData">
+                    <th >{{index+1}}</th>
                     <!--姓名-->
-                    <td></td>
+                    <td>{{data.name}}</td>
                     <!--身份证号-->
-                    <td></td>
+                    <td>{{data.cardId}}</td>
                     <!--地址-->
-                    <td></textarea>
-                    </td>
+                    <td>{{data.buildingAddress}}</td>
                     <!--层数-->
-                    <td></td>
+                    <td>{{data.floor}}</td>
                     <!--总面积-->
-                    <td></td>
+                    <td>{{data.totalArea}}</td>
                     <!--砖混-->
-                    <td></td>
+                    <td>{{data.zhuanhun}}</td>
                     <!--砖木-->
-                    <td></td>
+                    <td>{{data.zhuanmu}}</td>
                     <!--其他-->
-                    <td></td>
+                    <td>{{data.other}}</td>
                     <!--用途-->
-                    <td></td>
+                    <td>{{data.use}}</td>
                     <!--备注-->
-                    <td></td>
+                    <td>{{data.others}}</td>
                 </tr>
 
                 <tr>
-                    <!--<td colspan="12" style="text-align: center;font-size: large" @click="insertForms">报送</td>-->
+                    <td colspan="11" style="text-align: center;font-size: large"><a :href="'/republish?'+vars"><button>编辑</button></a></td>
                 </tr>
                 </tbody>
             </table>
@@ -94,7 +93,8 @@
             data() {
                 return {
                     length: null,
-                    bodyData: null
+                    bodyData: null,
+                    vars:null
                 }
             },
             mounted() {
@@ -108,6 +108,7 @@
                     .catch(function (error) { // 请求失败处理
                         console.log(error);
                     });
+                this.vars = this.getStringQuery()
             },
             methods:{
                 getQuery: function () {
@@ -123,6 +124,11 @@
                         }
                         return (false);
                     }
+                },
+                getStringQuery:function () {
+                    var query = window.location.search.substring(1);
+                    var vars = query.split("&");
+                    return vars;
                 }
             }
         })

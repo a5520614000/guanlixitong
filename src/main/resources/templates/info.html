@@ -60,23 +60,25 @@
                     <th>修改时间</th>
                     <th>审核状态</th>
                     <th></th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
                 <!--循环此处TR-->
-                <tr v-for="data in formData">
-                    <th scope="row">{{data.id}}</th>
+                <tr v-for="(data,index) in formData">
+                    <th scope="row">{{index+1}}</th>
                     <td>{{dateFormat(data.gmtCreate)}}</td>
-                    <td>{{data.name}}</td>
+                    <td>{{data.name+'...'}}</td>
                     <td>{{childCount(data.childFormId)}}</td>
-                    <td>{{}}</td>
+                    <td>{{data.address+'...'}}</td>
                     <td>{{dateFormat(data.gmtModified)}}</td>
-                    <td>{{}}</td>
+                    <td v-text="data.isSend==0?'审核中':'已审核'"></td>
                     <td><a :href="'/detail?childId='+data.childFormId">查看</a></td>
+                    <td><a @click="deleteForm(data.id)">删除</a></td>
                 </tr>
 
                 <tr>
-                    <td colspan="8" style="text-align: center;font-size: large">点击查看更多</td>
+                    <td colspan="9" style="text-align: center;font-size: large">点击查看更多</td>
                 </tr>
                 </tbody>
             </table>
@@ -98,7 +100,7 @@
                 console.log(token);
                 axios
                     .post('/forms/query',{token:token})
-                    .then(response => (this.formData = response.data.data,this.length=response.data.data.length))
+                    .then(response => (this.formData = response.data.data,this.length=response.data.data.length,console.log(response.data.data)))
                     .catch(function (error) { // 请求失败处理
                         console.log(error);
                     });
@@ -118,12 +120,31 @@
                     var minutes=date.getMinutes()<10 ? "0"+date.getMinutes() : date.getMinutes();
                     var seconds=date.getSeconds()<10 ? "0"+date.getSeconds() : date.getSeconds();
                     // 拼接
-                    var times = year+"-"+month+"-"+day+" "+hours+":"+minutes+":"+seconds;
+                    var times = year+"-"+month+"-"+day+" "+hours+":"+minutes/*+":"+seconds*/;
                     return times;
                 },
                 childCount:function (child) {
                     var childArr = child.split(',');
                     return childArr.length+"户";
+                },
+                deleteForm:function (btn) {
+                    var r = confirm("确认要删除吗？删除后无法恢复")
+                    if (r==false){
+                        return;
+                    }
+                    var token =$.cookie("token");
+                    var obj =new Object();
+                    obj.token=token;
+                    obj.id=btn;
+                    console.log(obj.id);
+                    axios
+                        .post('/api/forms/delete', obj)
+                        .then(function (response) {
+                            if (response.data.code==205) {
+                                alert("删除成功");
+                                window.location.reload()
+                            }
+                        })
                 }
             }
         })

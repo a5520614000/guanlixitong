@@ -31,4 +31,11 @@ public interface BuildingMapper {
     int insertAndGetId(Building building);
 
     Integer selectFirstLockerbyId(@Param("id") Integer id);
+
+    Integer selectParentIdById(@Param("id")Integer id);
+
+
+    int updateUserIdById(@Param("updatedUserId")Integer updatedUserId,@Param("id")Integer id);
+
+
 }

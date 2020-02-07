@@ -23,7 +23,8 @@ public enum ResultEnums {
     PASSWORD_ERROR(101,"密码错误"),
     ACCOUNT_EXIST(102,"账号已存在"),
     ADD_FORM_FAILED(103,"上报失败，请重试。如果多次失败，请联系管理员:错误代码203"),
-    DELETE_FAILED(104,"上报失败，请重试。如果多次失败，请联系管理员:错误代码203"),
+    UPDATE_FAILED(104,"更新失败"),
+    DELETE_FAILED(105,"上报失败，请重试。如果多次失败，请联系管理员:错误代码203"),
 
 
 

@@ -1,8 +1,8 @@
 package com.jubenwu.guanlixitong.controller;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
 
 /**
  * @author glsite.com
@@ -11,15 +11,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @updateAuthor $Author$
  * @updateDes ${TODO}
  */
-@Controller
+@RestController
 public class Test {
 
-    @RequestMapping(value = "/test",method = RequestMethod.GET)
-    public Object doTest(){
-//        System.out.println("sto:"+sto);
-//        HashMap<Object, Object> map = new HashMap<>();
-//        map.put("data","ok");
-//        System.out.println(""+sto);
-        return "temp";
+    @RequestMapping(value = "/api/forms/delete1",method = RequestMethod.POST)
+    public Object doTest(@RequestBody String sto){
+        HashMap<Object, Object> map = new HashMap<>();
+        map.put("data","ok");
+        System.out.println(""+sto);
+        return map;
     }
 }

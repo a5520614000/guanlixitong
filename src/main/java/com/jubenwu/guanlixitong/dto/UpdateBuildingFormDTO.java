@@ -23,10 +23,6 @@ public class UpdateBuildingFormDTO {
      */
     private List<Building> building;
     /**
-     * Id
-     */
-    private Integer id;
-    /**
      * locker
      */
     private Integer locker;
